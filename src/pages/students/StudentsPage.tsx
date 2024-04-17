@@ -4,9 +4,7 @@ export function StudentsPage() {
   return (
     <>
       <section className="p-5">
-        <div>
-          <StudentsTable />
-        </div>
+        <StudentsTable />
       </section>
     </>
   );

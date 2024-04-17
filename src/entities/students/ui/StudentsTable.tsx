@@ -1,13 +1,11 @@
 import { Button, Space, Table, TableProps } from "antd";
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
-import { MdEmojiEvents } from "react-icons/md";
+import { IUser } from "shared/api/types";
+import { useStudentsQuery } from "../model/use-students-query";
 
-interface DataType {
+interface DataType extends IUser {
   key: string;
-  name: string;
-  age: number;
-  address: ReactNode;
 }
 
 const columns: TableProps<DataType>["columns"] = [
@@ -18,15 +16,22 @@ const columns: TableProps<DataType>["columns"] = [
   },
   {
     title: "Баллы",
-    dataIndex: "age",
-    key: "age",
-  },
-  {
-    title: "Достижения",
-    dataIndex: "address",
-    key: "address",
-  },
+    dataIndex: "score",
+    key: "score",
+    render: (_, record) => {
+      const totalScore =
+        (record.achivements_users || []).reduce(
+          (acc, achievement) => acc + achievement.score,
+          0
+        ) +
+        (record.rating_users || []).reduce(
+          (acc, rating) => acc + rating.score,
+          0
+        );
 
+      return totalScore || 0;
+    },
+  },
   {
     title: "",
     key: "action",
@@ -39,27 +44,22 @@ const columns: TableProps<DataType>["columns"] = [
   },
 ];
 
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "Преловский Тимофей Игоревич",
-    age: 32,
-    address: <MdEmojiEvents size={30} />,
-  },
-  {
-    key: "2",
-    name: "Преловский Тимофей Игоревич",
-    age: 42,
-    address: <MdEmojiEvents size={30} />,
-  },
-  {
-    key: "3",
-    name: "Преловский Тимофей Игоревич",
-    age: 32,
-    address: <MdEmojiEvents size={30} />,
-  },
-];
-
 export const StudentsTable: FC = () => {
-  return <Table columns={columns} dataSource={data} pagination={false} />;
+  const { data, isLoading } = useStudentsQuery();
+
+  const dataSource: DataType[] =
+    data?.data.map((user) => ({
+      ...user,
+      key: user.id.toString(),
+    })) || [];
+
+  return (
+    <Table
+      columns={columns}
+      loading={isLoading}
+      dataSource={dataSource}
+      pagination={false}
+      scroll={{ y: "calc(100vh - 160px)" }}
+    />
+  );
 };

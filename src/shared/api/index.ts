@@ -1,1 +1,3 @@
-export { queryClient } from "./query-client";
+export { createInstance } from "./api-instance";
+export { apiInstance } from "./api-instance";
+export * from "./types";
