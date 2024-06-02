@@ -1,32 +1,48 @@
+import { Avatar } from "antd";
 import { FC } from "react";
+import { useNavigate } from "react-router-dom";
+import { IQuiz } from "shared/api";
 
-export const QuizCard: FC = () => {
-  return (
-    <div
-      className="p-3 bg-white transition-all rounded  
-    h-32 cursor-pointer shadow w-full
-    border-solid border-y-0 border-x-0 border-b-4 border-transparent
+export interface IQuizCardProps {
+    quiz: IQuiz;
+}
+
+export const QuizCard: FC<IQuizCardProps> = ({ quiz }) => {
+    const navigate = useNavigate();
+    return (
+        <div
+            onClick={() => navigate(`/quizzes/${quiz.id}`)}
+            className="h-32 cursor-pointer rounded border-x-0  
+    border-y-0 border-b-4 border-solid 
+    border-transparent bg-white p-3 shadow transition-all
     hover:border-indigo-500"
-    >
-      <div className="flex justify-between items-start h-full">
-        <div className="flex flex-col items-start justify-between h-full">
-          <div>
-            <h4>Квиз на знание информатики</h4>
-            <p className="mt-2 text-gray-700">
-              Текст — зафиксированная на каком-либо материальном носителе
-              человеческая мысль; в общем плане связная и полная
-              последовательность символов.
-            </p>
-          </div>
-
-          <p className="mt-2 text-indigo-600">Количество баллов: 2</p>
+        >
+            <div className="flex h-full items-start justify-between">
+                <div className="flex h-full flex-col items-start justify-between">
+                    <div>
+                        <h4>{quiz.title}</h4>
+                        {/* <p className="mt-2 text-gray-700">{quiz.description}</p> */}
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Avatar
+                            style={{
+                                backgroundColor: "#fde3cf",
+                                color: "#f56a00",
+                            }}
+                            src="https://api.dicebear.com/7.x/miniavs/svg?seed=2"
+                        />
+                        <span className="text-sm">Иванов Иван Иванович</span>
+                    </div>
+                    <p className="mt-2 text-indigo-600">
+                        Количество баллов: {quiz.score}
+                    </p>
+                </div>
+                <div className="flex h-full flex-col justify-between pl-1 font-medium">
+                    <span className="rounded-full bg-indigo-50 px-2 py-1 text-sm font-medium">
+                        17.04.2024
+                    </span>
+                </div>
+            </div>
         </div>
-        <div className="pl-1 flex flex-col justify-between h-full font-medium">
-          <span className="py-1 px-2 bg-indigo-50 font-medium rounded-full text-sm">
-            17.04.2024
-          </span>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };

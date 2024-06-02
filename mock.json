@@ -1,0 +1,16 @@
+{
+    "title": "Тима",
+    "description": "тима - тима",
+    "score": 12,
+    "questions": [
+        {
+            "text_questions": "Что такое тима?",
+            "timer": 10,
+            "answer": [
+                { "text_answer": "человек", "true_answer": false },
+                { "text_answer": "пёс", "true_answer": false },
+                { "text_answer": "ставочник ", "true_answer": true }
+            ]
+        }
+    ]
+}

@@ -5,43 +5,44 @@ import { IAchievement } from "shared/api";
 import { FaCrown } from "react-icons/fa";
 
 interface DataType extends IAchievement {
-  key: string;
+    key: string;
 }
 
 const columns: TableProps<DataType>["columns"] = [
-  {
-    title: "Название",
-    dataIndex: "title",
-    key: "title",
-  },
-  {
-    title: "Балл",
-    dataIndex: "score",
-    key: "score",
-  },
-  {
-    title: "Иконка",
-    dataIndex: "image",
-    key: "image",
-    render: () => <FaCrown size={25} />,
-  },
+    {
+        title: "Название",
+        dataIndex: "title",
+        key: "title",
+    },
+    {
+        title: "Балл",
+        dataIndex: "score",
+        key: "score",
+    },
+    {
+        title: "Иконка",
+        dataIndex: "image",
+        key: "image",
+        render: () => <FaCrown size={25} />,
+    },
 ];
 
 export const AchievementsTable: FC = () => {
-  const { data } = useAchievementsQuery();
+    const { data, isLoading, isFetching, isPending } = useAchievementsQuery();
 
-  const dataSource: DataType[] =
-    data?.data.map((achievement) => ({
-      ...achievement,
-      key: achievement.id.toString(),
-    })) || [];
+    const dataSource: DataType[] =
+        data?.data.map((achievement) => ({
+            ...achievement,
+            key: achievement.id.toString(),
+        })) || [];
 
-  return (
-    <Table
-      columns={columns}
-      dataSource={dataSource}
-      pagination={false}
-      scroll={{ y: "calc(100vh - 160px)" }}
-    />
-  );
+    return (
+        <Table
+            loading={isFetching || isLoading || isPending}
+            columns={columns}
+            dataSource={dataSource}
+            pagination={false}
+            scroll={{ y: "calc(100vh - 160px)" }}
+        />
+    );
 };

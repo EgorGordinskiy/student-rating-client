@@ -4,16 +4,16 @@ import { IFetchAchievements } from "shared/api/types";
 import { QUERY_KEYS } from "shared/lib";
 
 export const fetchAchievements = (signal: AbortSignal) => {
-  return createInstance<IFetchAchievements>({
-    url: `/achievements`,
-    method: "GET",
-    signal,
-  });
+    return createInstance<IFetchAchievements>({
+        url: `/achievements`,
+        method: "GET",
+        signal,
+    });
 };
 
 export function useAchievementsQuery() {
-  return useQuery({
-    queryKey: QUERY_KEYS.ACHIEVEMENTS,
-    queryFn: ({ signal }) => fetchAchievements(signal),
-  });
+    return useQuery({
+        queryKey: QUERY_KEYS.ACHIEVEMENTS,
+        queryFn: ({ signal }) => fetchAchievements(signal),
+    });
 }
